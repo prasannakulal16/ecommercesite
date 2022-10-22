@@ -19,14 +19,25 @@ const cartSlice = createSlice({
       );
       console.log("index",itemIndex)
 
-      if (itemIndex >= 0) {
-        state.cartItems[itemIndex].cartQuantity += 1;
-        toast.info(
-          `Increase ${state.cartItems[itemIndex].name} Cart Quantity`,
-          {
-            position: "bottom-left",
-          }
-        );
+      if (itemIndex >= 0 ) {
+        if(state.cartItems[itemIndex].cartQuantity < state.cartItems[itemIndex].quantity){
+          state.cartItems[itemIndex].cartQuantity += 1;
+          toast.info(
+            `Increase ${state.cartItems[itemIndex].name} Cart Quantity`,
+            {
+              position: "bottom-left",
+            }
+          );
+        }
+        else{
+          toast.warn(
+            `Product ${state.cartItems[itemIndex].name} temporarily out of stock`,
+            {
+              position: "top-right",
+            }
+          );
+        }
+       
       } else {
         const tempProduct = { ...action.payload, cartQuantity: 1 };
         state.cartItems.push(tempProduct);
